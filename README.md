@@ -3,7 +3,7 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular-ui/bootstrap?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/xtivia/bootstrap.svg)](http://travis-ci.org/xtivia/bootstrap)
-[![devDependency Status](https://david-dm.org/angular-ui/bootstrap/dev-status.svg?branch=master)](https://david-dm.org/angular-ui/bootstrap#info=devDependencies)
+[![devDependency Status](https://david-dm.org/xtivia/bootstrap/dev-status.svg?branch=master)](https://david-dm.org/xtivia/bootstrap#info=devDependencies)
 
 ### Quick links
 - [Demo](#demo)
