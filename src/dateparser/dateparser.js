@@ -20,8 +20,8 @@ angular.module('ui.bootstrap.dateparser', [])
     var self = this;
     this.parsers = {};
     this.formatters = {};
-    this.monthNames = convertToLowerCaseNames(this.$locale.DATETIME_FORMATS.MONTH);
-    this.shortMonthNames = convertToLowerCaseNames(this.$locale.DATETIME_FORMATS.SHORTMONTH);
+    this.monthNames = convertToLowerCaseNames($locale.DATETIME_FORMATS.MONTH);
+    this.shortMonthNames = convertToLowerCaseNames($locale.DATETIME_FORMATS.SHORTMONTH);
 
     formatCodeToRegex = [
       {
