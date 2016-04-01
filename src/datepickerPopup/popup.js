@@ -222,7 +222,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
       $scope.date = dt;
     }
     var date = $scope.date ? dateParser.filter($scope.date, dateFormat) : null; // Setting to NULL is necessary for form validators to function
-    $element.val(date);
+    $element.val(date || '');
     ngModel.$setViewValue(date);
 
     if (closeOnDateSelection) {

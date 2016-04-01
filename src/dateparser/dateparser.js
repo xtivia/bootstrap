@@ -7,11 +7,21 @@ angular.module('ui.bootstrap.dateparser', [])
   var localeId;
   var formatCodeToRegex;
 
+  function convertToLowerCaseNames(names) {
+    var lowerCaseNames = [];
+    names.forEach(function(name) {
+      lowerCaseNames.push(name.toLocaleLowerCase());
+    });
+    return lowerCaseNames;
+  }
+
   this.init = function() {
     localeId = $locale.id;
-
+    var self = this;
     this.parsers = {};
     this.formatters = {};
+    this.monthNames = convertToLowerCaseNames(this.$locale.DATETIME_FORMATS.MONTH);
+    this.shortMonthNames = convertToLowerCaseNames(this.$locale.DATETIME_FORMATS.SHORTMONTH);
 
     formatCodeToRegex = [
       {
@@ -60,13 +70,13 @@ angular.module('ui.bootstrap.dateparser', [])
       {
         key: 'MMMM',
         regex: $locale.DATETIME_FORMATS.MONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.MONTH.indexOf(value); },
+        apply: function(value) { this.month = self.monthNames.indexOf(value ? value.toLocaleLowerCase() : value); },
         formatter: function(date) { return dateFilter(date, 'MMMM'); }
       },
       {
         key: 'MMM',
         regex: $locale.DATETIME_FORMATS.SHORTMONTH.join('|'),
-        apply: function(value) { this.month = $locale.DATETIME_FORMATS.SHORTMONTH.indexOf(value); },
+        apply: function(value) { this.month = self.shortMonthNames.indexOf(value ? value.toLocaleLowerCase() : value); },
         formatter: function(date) { return dateFilter(date, 'MMM'); }
       },
       {
@@ -290,7 +300,7 @@ angular.module('ui.bootstrap.dateparser', [])
     });
 
     return {
-      regex: new RegExp('^' + regex.join('') + '$'),
+      regex: new RegExp('^' + regex.join('') + '$', 'i'), // added ignore case to regex.
       map: orderByFilter(map, 'index')
     };
   }
