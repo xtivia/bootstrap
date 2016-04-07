@@ -23,6 +23,7 @@ module.exports = function(grunt) {
       cssInclude: '',
       cssFileBanner: '/* Include this file in your html if you are using the CSP mode. */\n\n',
       cssFileDest: '<%= dist %>/<%= filename %>-<%= pkg.version %>-csp.css',
+      cssFileNpm: '<%= dist %>/<%= filename %>-csp.css',
       banner: [
         '/*',
         ' * <%= pkg.name %>',
@@ -62,6 +63,22 @@ module.exports = function(grunt) {
         },
         src: [], //src filled in by build task
         dest: '<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.js'
+      },
+      npm: {
+        options: {
+          banner: '<%= meta.banner %><%= meta.modules %>\n',
+          footer: '<%= meta.cssInclude %>'
+        },
+        src: [], //src filled in by build task
+        dest: '<%= dist %>/<%= filename %>.js'
+      },
+      npm_tpls: {
+        options: {
+          banner: '<%= meta.banner %><%= meta.all %>\n<%= meta.tplmodules %>\n',
+          footer: '<%= meta.cssInclude %>'
+        },
+        src: [], //src filled in by build task
+        dest: '<%= dist %>/<%= filename %>-tpls.js'
       }
     },
     copy: {
@@ -98,6 +115,14 @@ module.exports = function(grunt) {
       dist_tpls:{
         src:['<%= concat.dist_tpls.dest %>'],
         dest:'<%= dist %>/<%= filename %>-tpls-<%= pkg.version %>.min.js'
+      },
+      npm:{
+        src:['<%= concat.dist.dest %>'],
+        dest:'<%= dist %>/<%= filename %>.min.js'
+      },
+      npm_tpls:{
+        src:['<%= concat.dist_tpls.dest %>'],
+        dest:'<%= dist %>/<%= filename %>-tpls.min.js'
       }
     },
     html2js: {
@@ -328,6 +353,11 @@ module.exports = function(grunt) {
                        cssStrings.join('\n'));
 
       grunt.log.writeln('File ' + grunt.config('meta.cssFileDest') + ' created');
+
+      grunt.file.write(grunt.config('meta.cssFileNpm'), grunt.config('meta.cssFileBanner') +
+        cssStrings.join('\n'));
+
+      grunt.log.writeln('File ' + grunt.config('meta.cssFileNpm') + ' created');
     }
 
     var moduleFileMapping = _.clone(modules, true);
@@ -340,9 +370,15 @@ module.exports = function(grunt) {
     //Set the concat task to concatenate the given src modules
     grunt.config('concat.dist.src', grunt.config('concat.dist.src')
                  .concat(srcFiles));
+    //Set the concat task to concatenate the given src modules
+    grunt.config('concat.npm.src', grunt.config('concat.npm.src')
+      .concat(srcFiles));
     //Set the concat-with-templates task to concat the given src & tpl modules
     grunt.config('concat.dist_tpls.src', grunt.config('concat.dist_tpls.src')
                  .concat(srcFiles).concat(tpljsFiles));
+    //Set the concat-with-templates task to concat the given src & tpl modules
+    grunt.config('concat.npm_tpls.src', grunt.config('concat.npm_tpls.src')
+      .concat(srcFiles).concat(tpljsFiles));
 
     grunt.task.run(['concat', 'uglify', 'makeModuleMappingFile', 'makeRawFilesJs', 'makeVersionsMappingFile']);
   });
