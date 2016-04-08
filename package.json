@@ -7,7 +7,7 @@
     "angular": "1.5.3"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "dist"
   },
   "files": [
     "index.js",

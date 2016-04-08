@@ -349,11 +349,6 @@ module.exports = function(grunt) {
     if (cssStrings.length) {
       grunt.config('meta.cssInclude', cssJsStrings.join('\n'));
 
-      grunt.file.write(grunt.config('meta.cssFileDest'), grunt.config('meta.cssFileBanner') +
-                       cssStrings.join('\n'));
-
-      grunt.log.writeln('File ' + grunt.config('meta.cssFileDest') + ' created');
-
       grunt.file.write(grunt.config('meta.cssFileNpm'), grunt.config('meta.cssFileBanner') +
         cssStrings.join('\n'));
 
@@ -368,14 +363,8 @@ module.exports = function(grunt) {
     var srcFiles = _.pluck(modules, 'srcFiles');
     var tpljsFiles = _.pluck(modules, 'tpljsFiles');
     //Set the concat task to concatenate the given src modules
-    grunt.config('concat.dist.src', grunt.config('concat.dist.src')
-                 .concat(srcFiles));
-    //Set the concat task to concatenate the given src modules
     grunt.config('concat.npm.src', grunt.config('concat.npm.src')
       .concat(srcFiles));
-    //Set the concat-with-templates task to concat the given src & tpl modules
-    grunt.config('concat.dist_tpls.src', grunt.config('concat.dist_tpls.src')
-                 .concat(srcFiles).concat(tpljsFiles));
     //Set the concat-with-templates task to concat the given src & tpl modules
     grunt.config('concat.npm_tpls.src', grunt.config('concat.npm_tpls.src')
       .concat(srcFiles).concat(tpljsFiles));
